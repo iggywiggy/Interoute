@@ -1,4 +1,4 @@
-﻿namespace InterouteWebAPI.Commands
+﻿namespace InterouteWebAPI.Enums
 {
     public enum CommandEnum
     {

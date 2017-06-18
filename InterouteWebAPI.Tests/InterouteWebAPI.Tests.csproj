@@ -51,7 +51,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorProcessorTests.cs" />
+    <Compile Include="AddCalculatorTests.cs" />
+    <Compile Include="CommandFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
