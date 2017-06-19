@@ -2,7 +2,7 @@
 
 namespace InterouteWebAPI.Interfaces
 {
-    internal interface ICommandFactory
+    public interface ICommandFactory
     {
         ICommand Resolve(CommandEnum commandEnum, object[] args);
     }

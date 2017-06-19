@@ -1,5 +1,7 @@
 ﻿using System;
+using InterouteWebAPI.Infastructure;
 using InterouteWebAPI.Interfaces;
+using InterouteWebAPI.Processors;
 using Microsoft.Practices.Unity;
 
 namespace InterouteWebAPI.Classes
@@ -25,11 +27,16 @@ namespace InterouteWebAPI.Classes
 
         private void RegisterTypes()
         {
+            Container.RegisterType<ICommandFactory, CommandFactory>();
+            Container.RegisterType<ICommandWithResult<long>, AddCommand>("AddCommand");
+            Container.RegisterType<IAddProcessor, AddProcessor>();
+            ConfigureLog4Net();
         }
 
-        public ICommandFactory ResolveCommandFactory()
+        private void ConfigureLog4Net()
         {
-            return Container.Resolve<ICommandFactory>();
+            var logManager = new LogManagerAdapter();
+            Container.RegisterInstance<ILogManager>(logManager);
         }
     }
 }

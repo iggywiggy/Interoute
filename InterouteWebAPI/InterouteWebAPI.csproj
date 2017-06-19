@@ -115,12 +115,23 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AddCommand.cs" />
+    <Compile Include="Classes\AddProcessor.cs" />
+    <Compile Include="Classes\CommandFactory.cs" />
     <Compile Include="Classes\DiContainer.cs" />
+    <Compile Include="Controlers\CalculateController.cs" />
+    <Compile Include="Controlers\LoggerController.cs" />
     <Compile Include="Enums\CommandEnum.cs" />
-    <Compile Include="Interfaces\IAddCalculator.cs" />
+    <Compile Include="Infastructure\LogWriter.cs" />
+    <Compile Include="Interfaces\ILogWriter.cs" />
+    <Compile Include="Infastructure\LogManagerAdapter.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\ICommandFactory.cs" />
+    <Compile Include="Interfaces\ICommandWithResult.cs" />
+    <Compile Include="Interfaces\ILogManager.cs" />
+    <Compile Include="Processors\IAddProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidationAttribute.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

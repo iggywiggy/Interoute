@@ -1,6 +1,6 @@
 ﻿namespace InterouteWebAPI.Interfaces
 {
-    internal interface ICommand
+    public interface ICommand
     {
         void Execute(object[] args);
     }
