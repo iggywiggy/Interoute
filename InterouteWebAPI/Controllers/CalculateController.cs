@@ -22,12 +22,6 @@ namespace InterouteWebAPI.Controllers
         public IHttpActionResult AddTwoIntegers(string integerOne,
             string integerTwo)
         {
-            if (string.IsNullOrEmpty(integerOne))
-                throw new ArgumentNullException(nameof(integerOne));
-
-            if (string.IsNullOrEmpty(integerTwo))
-                throw new ArgumentNullException(nameof(integerTwo));
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
