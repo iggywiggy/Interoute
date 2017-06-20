@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using InterouteWebAPI.Enums;
 using InterouteWebAPI.Interfaces;
-using Microsoft.Practices.Unity;
 
-namespace InterouteWebAPI.Classes
+namespace InterouteWebAPI.Classes.Commands
 {
     public class CommandFactory : ICommandFactory
     {
@@ -17,9 +17,15 @@ namespace InterouteWebAPI.Classes
 
         public ICommand Resolve(CommandEnum commandEnum, object[] args)
         {
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+
+            if (!Enum.IsDefined(typeof(CommandEnum), commandEnum))
+                throw new InvalidEnumArgumentException(nameof(commandEnum), (int) commandEnum, typeof(CommandEnum));
+
             var commandType = _commandsDictionary[commandEnum];
 
-            return DiContainer.Instance.Container.Resolve<ICommand>(commandType.Name);
+            return WebContainerManager.Get<ICommand>(commandType.Name);
         }
 
         private void RegisterCommands()
@@ -28,6 +34,9 @@ namespace InterouteWebAPI.Classes
             {
                 {
                     CommandEnum.Add, typeof(AddCommand)
+                },
+                {
+                    CommandEnum.ReadLogFile, typeof(ReadLogFileCommand)
                 }
             };
         }

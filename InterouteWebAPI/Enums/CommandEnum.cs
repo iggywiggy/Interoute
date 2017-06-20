@@ -2,6 +2,7 @@
 {
     public enum CommandEnum
     {
-        Add
+        Add,
+        ReadLogFile
     }
 }

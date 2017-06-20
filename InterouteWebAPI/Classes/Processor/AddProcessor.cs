@@ -1,6 +1,6 @@
-﻿using InterouteWebAPI.Processors;
+﻿using InterouteWebAPI.Interfaces;
 
-namespace InterouteWebAPI.Classes
+namespace InterouteWebAPI.Classes.Processor
 {
     public class AddProcessor : IAddProcessor
     {

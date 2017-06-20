@@ -8,6 +8,9 @@ namespace InterouteWebAPI.Infastructure
     {
         public ILog GetLog(Type typeAssociatedWithRequestedLog)
         {
+            if (typeAssociatedWithRequestedLog == null)
+                throw new ArgumentNullException(nameof(typeAssociatedWithRequestedLog));
+
             return LogManager.GetLogger(typeAssociatedWithRequestedLog);
         }
     }

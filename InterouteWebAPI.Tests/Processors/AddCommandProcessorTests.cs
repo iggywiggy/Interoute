@@ -1,11 +1,11 @@
-﻿using InterouteWebAPI.Classes;
-using InterouteWebAPI.Processors;
+﻿using InterouteWebAPI.Classes.Processor;
+using InterouteWebAPI.Interfaces;
 using NUnit.Framework;
 
-namespace InterouteWebAPI.Tests
+namespace InterouteWebAPI.Tests.Processors
 {
     [TestFixture]
-    public class AddCommandProcessorTests
+    public class AddProcessorTests
     {
         private IAddProcessor _addProcessor;
 

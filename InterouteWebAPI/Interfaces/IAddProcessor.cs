@@ -1,4 +1,4 @@
-﻿namespace InterouteWebAPI.Processors
+﻿namespace InterouteWebAPI.Interfaces
 {
     public interface IAddProcessor
     {

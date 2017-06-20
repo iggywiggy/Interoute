@@ -1,24 +1,43 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net.Http;
-using System.Text;
-using System.Web;
 using System.Web.Http.Tracing;
 using InterouteWebAPI.Interfaces;
 using log4net;
 
 namespace InterouteWebAPI.Infastructure
 {
-    public class LogWriter : ILogWriter
+    public class LogWriter : ITraceWriter
     {
         private readonly ILog _log;
 
         public LogWriter(ILogManager logManager)
         {
-            _log = logManager.GetLog(typeof(LogWriter));
+            _log = logManager?.GetLog(typeof(LogWriter)) ?? throw new ArgumentNullException(nameof(logManager));
+        }
+
+        public void Trace(HttpRequestMessage request, string category, TraceLevel level,
+            Action<TraceRecord> traceAction)
+        {
+            if (category == null)
+                throw new ArgumentNullException(nameof(category));
+
+            if (traceAction == null)
+                throw new ArgumentNullException(nameof(traceAction));
+
+            if (!Enum.IsDefined(typeof(TraceLevel), level))
+                throw new InvalidEnumArgumentException(nameof(level), (int) level, typeof(TraceLevel));
+
+            var record = new TraceRecord(request, category, level);
+            traceAction(record);
+            WriteToLog(record);
         }
 
         public void WriteToLog(TraceRecord record)
         {
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
+
             const string traceFormat =
                 "RequestId={0}; Kind={1}; Status={2}; Operation={3}; Operator={4}; Category={5} Request={6} Message={7}";
 
@@ -36,15 +55,6 @@ namespace InterouteWebAPI.Infastructure
 
             switch (record.Level)
             {
-                case TraceLevel.Debug:
-                    _log.DebugFormat(traceFormat, args);
-                    break;
-                case TraceLevel.Info:
-                    _log.InfoFormat($"{DateTime.Now}, {GetStringQueryParameters(record)}, {record.Message}", args);
-                    break;
-                case TraceLevel.Warn:
-                    _log.WarnFormat(traceFormat, args);
-                    break;
                 case TraceLevel.Error:
                     _log.ErrorFormat(traceFormat, args);
                     break;
@@ -52,26 +62,6 @@ namespace InterouteWebAPI.Infastructure
                     _log.FatalFormat(traceFormat, args);
                     break;
             }
-        }
-
-        public void Trace(HttpRequestMessage request, string category, TraceLevel level,
-            Action<TraceRecord> traceAction)
-        {
-            var record = new TraceRecord(request, category, level);
-            traceAction(record);
-            WriteToLog(record);
-        }
-
-        public string GetStringQueryParameters(TraceRecord record)
-        {
-            var parameters = HttpUtility.ParseQueryString(record.Request.RequestUri.Query);
-
-            var stringBuilder = new StringBuilder();
-
-            foreach (string key in parameters)
-                stringBuilder.Append("" + parameters[key]);
-
-            return stringBuilder.ToString();
         }
     }
 }
